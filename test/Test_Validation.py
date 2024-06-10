@@ -1,7 +1,7 @@
 import unittest
 from Parsing import Parsing
 
-class Test_Validation(unittest.TestCase):
+class TestValidation(unittest.TestCase):
     def test_valid_value_expression(self):
         testcase1 = Parsing("0 * * * * /user/command")
         expected_output = [

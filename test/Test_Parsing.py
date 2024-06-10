@@ -2,7 +2,7 @@
 import unittest
 from Parsing import Parsing
 
-class Test_Parsing(unittest.TestCase):
+class TestParsing(unittest.TestCase):
         def test_parse_valid_expression(self):
         # Test that the parse method correctly parses a valid cron expression
             testcase1 = Parsing("*/15 0 1,15 * 1-5 /usr/bin/find")
