@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 import sys
 
 class Parsing:
@@ -11,16 +11,15 @@ class Parsing:
 
     # Validate each field in the cron expression for validity
     def __validate_field(self, field, field_range):
+        start, end = field_range
+        section = field.split(',')
         for v in field:
             if v.isdigit():
                 continue
-            if  v in self.special_chars:
+            if v in self.special_chars:
                 continue
             else:
                 raise ValueError(f"Invalid Character in the field: {field}")
-            
-        start, end = field_range
-        section = field.split(',')
         for sub in section:
             if sub == '*':
                 continue
@@ -93,10 +92,9 @@ class Parsing:
         return output
 
     # Print the parsed output with formatting
-    def _print_box(self, output):
+    def print_box(self, output):
         for name, values in output:
             print(f"{name:<14} {values }")
-        pass
 
 
 
@@ -108,7 +106,7 @@ def main():
         cron_exp = sys.argv[1]
         exp = Parsing(cron_exp)
         p = exp.parse()
-        exp._print_box(p)
+        exp.print_box(p)
     except ValueError as e:
         print(e)
 

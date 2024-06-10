@@ -2,6 +2,7 @@ import unittest
 from Parsing import Parsing
 
 class TestValidation(unittest.TestCase):
+
     def test_valid_value_expression(self):
         testcase1 = Parsing("0 * * * * /user/command")
         expected_output = [
@@ -13,32 +14,25 @@ class TestValidation(unittest.TestCase):
                 ("command", "/user/command")
             ]
         self.assertEqual(testcase1.parse(), expected_output)
-        pass
 
     def test_invalid_character(self):
         with self.assertRaisesRegex(ValueError, r"Invalid Character in the field: @1-5"):
             Parsing("*/15 0 1,15 * @1-5 /usr/bin/command").validate_exp()
-        pass
 
     def test_invalid_step(self):
         with self.assertRaisesRegex(ValueError, r"Invalid split value : -15"):
             Parsing("*/-15 0 1,15 * 1-5 /usr/bin/command").validate_exp()
-        pass
 
     def test_value_out_of_range(self):
         with self.assertRaisesRegex(ValueError, r"Invalid range interval: 1-40"):
             Parsing("*/15 0 1-40 * 1-5 /usr/bin/command").validate_exp()
-        pass
 
     def test_missing_fields(self):
         with self.assertRaisesRegex(ValueError, r"Error: Invalid cron format, Field count should be 6"):
             Parsing("0 * * * *").validate_exp()
-        pass
 
     def test_empty_expression(self):
         with self.assertRaisesRegex(ValueError,  r"Error: Invalid cron format, Field count should be 6" ):
             Parsing("0 0 * * ").validate_exp()
-        pass
-
 if __name__ == "__main__":
     unittest.main(verbosity=2)
