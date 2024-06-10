@@ -1,5 +1,3 @@
-This is a README FILE for Cron Parser
-
 # Cron Parser
 
 This project provides a command-line utility for parsing and expanding cron expressions. It takes a cron string as input and expands each field to show the times at which it will run. The utility supports the standard cron format with five time fields (minute, hour, day of month, month, and day of week) plus a command.
