@@ -46,6 +46,7 @@ python3 -m unittest discover -s test
 
 This will run all the test cases defined in the project.
 
+
 ## Files and Folders
 
 - `Parsing.py`: Main script for parsing cron expressions.
@@ -53,8 +54,20 @@ This will run all the test cases defined in the project.
   - `test_validation.py`: Test cases for validation of cron expressions.
   - `test_parsing.py`: Test cases for parsing and expanding cron expressions.
 
+## Assumptions and Limitations
 
-## Limitations
-1. Special strings such as @yearly @annually etc are not handled
-2. String notations of weekdays and month names like MON, TUE .. and JAN, FEB.. are also not handled
-3. Some special characters such as L, W are also beyond scope of this cron parser
+- Standard Cron Format: The project assumes that the input cron expressions adhere to the standard cron format, including five time fields (minute, hour, day of month, month, day of week) followed by a command.
+- The cron expression follows the standard format with five time fields (minute, hour, day of month, month, and day of week) plus a command.
+    Each field has a specific range:
+    - `Minutes: 0 to 59`
+    - `Hours: 0 to 23`
+    - `Day of Month: 1 to 31`
+    - `Month: 1 to 12`
+    - `Day of Week: 0 to 6 (Sunday to Saturday)`
+- No Special Time Strings: The project doesn't handle special time strings such as "@yearly" or "@daily".
+- Valid Input: It assumes that users provide valid cron expressions as input. The program doesn't extensively validate the input beyond basic syntax checks.
+- No External Dependencies: The project assumes that it doesn't require any external dependencies beyond the standard Python libraries.
+- Command-Line Interface: It's assumed that users interact with the program via the command line, providing cron expressions as arguments.
+- Single Cron Expression: The project processes a single cron expression at a time.
+- Output Formatting: The output is formatted as a table with each field name followed by the corresponding times at which it will run. The output format adheres to the specifications provided.
+- Python Version Compatibility: The project is assumed to be compatible with Python 3.x versions
