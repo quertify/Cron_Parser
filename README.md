@@ -50,8 +50,8 @@ This will run all the test cases defined in the project.
 
 - `Parsing.py`: Main script for parsing cron expressions.
 - `test`: Directory containing unit test files.
-  - `Test_Validation.py`: Test cases for validation of cron expressions.
-  - `Test_Parsing.py`: Test cases for parsing and expanding cron expressions.
+  - `test_validation.py`: Test cases for validation of cron expressions.
+  - `test_parsing.py`: Test cases for parsing and expanding cron expressions.
 
 
 ## Limitations
