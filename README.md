@@ -10,7 +10,7 @@ To use the utility, run the `Parsing.py` script with a cron expression as an arg
 
 ## Usage
 ```
-python Parsing.py */15 0 1,15 * 1-5 /usr/bin/find
+python Parsing.py "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
 
 This will output the expanded cron expression in a table format:
