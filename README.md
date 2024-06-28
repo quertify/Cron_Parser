@@ -48,7 +48,7 @@ This will run all the test cases defined in the project.
 
 
 ## Files and Folders
-
+```
 cronparser/
 │
 ├── constants.py        # Contains constant values used across the project
@@ -59,7 +59,7 @@ cronparser/
 ├── printers.py         # Implements the DefaultCronPrinter
 ├── cron_expression.py  # Combines all components and defines the CronExpression class
 └── main.py             # Main entry point for running the cron parser
-
+```
 ## Assumptions and Limitations
 
 - Standard Cron Format: The project assumes that the input cron expressions adhere to the standard cron format, including five time fields (minute, hour, day of month, month, day of week) followed by a command.
