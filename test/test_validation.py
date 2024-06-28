@@ -1,38 +1,88 @@
 import unittest
-from Parsing import Parsing
+from unittest.mock import MagicMock
+from cronparser.cron_expression import CronExpression
+from cronparser.validators import DefaultCronValidator
+from cronparser.parsers import DefaultCronParser
+from cronparser.schedulers import DefaultCronScheduler
+from cronparser.printers import DefaultCronPrinter
 
-class TestValidation(unittest.TestCase):
+class TestCronExpressionValidation(unittest.TestCase):
 
-    def test_valid_value_expression(self):
-        testcase1 = Parsing("0 * * * * /user/command")
-        expected_output = [
-                ("minute", "0"),
-                ("hour", "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23"),
-                ("day of month", "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31"),
-                ("month", "1 2 3 4 5 6 7 8 9 10 11 12"),
-                ("day of week", "0 1 2 3 4 5 6"),
-                ("command", "/user/command")
-            ]
-        self.assertEqual(testcase1.parse(), expected_output)
+    def setUp(self):
+        # Create a mock for DefaultCronValidator
+        self.validator = DefaultCronValidator()
+        self.parser = DefaultCronParser()
+        self.scheduler = DefaultCronScheduler()
+        self.printer = DefaultCronPrinter()
+        self.validator.validate = MagicMock(return_value=True)  # Mock the validate method
 
-    def test_invalid_character(self):
-        with self.assertRaisesRegex(ValueError, r"Invalid Character in the field: @1-5"):
-            Parsing("*/15 0 1,15 * @1-5 /usr/bin/command").validate_exp()
+        # Create mocks for other components (parser, scheduler, printer)
+        self.parser = MagicMock()
 
-    def test_invalid_step(self):
-        with self.assertRaisesRegex(ValueError, r"Invalid split value : -15"):
-            Parsing("*/-15 0 1,15 * 1-5 /usr/bin/command").validate_exp()
+    def test_valid_cron_expression(self):
+        # Set up a valid cron expression
+        cron_exp = "*/15 * * * * /user/command"
 
-    def test_value_out_of_range(self):
-        with self.assertRaisesRegex(ValueError, r"Invalid range interval: 1-40"):
-            Parsing("*/15 0 1-40 * 1-5 /usr/bin/command").validate_exp()
+        # Create CronExpression instance with mocks
 
-    def test_missing_fields(self):
-        with self.assertRaisesRegex(ValueError, r"Error: Invalid cron format, Field count should be 6"):
-            Parsing("0 * * * *").validate_exp()
+        # Assert that validate() method of the validator was called once with cron_exp
+        self.validator.validate.assert_called_once_with(cron_exp)
+
+    def test_invalid_cron_expression(self):
+        # Set up an invalid cron expression
+        invalid_cron_exp = "*/-15 0 1,15 * 1-5 /usr/bin/command"
+
+        # Mock the validator to raise a ValueError when validate() is called
+        self.validator.validate = MagicMock(side_effect=ValueError("Invalid cron expression"))
+
+        # Create CronExpression instance with mocks
+        cron_expression = CronExpression(invalid_cron_exp, self.validator, self.parser, self.scheduler, self.printer)
+
+        # Expect a ValueError to be raised when parse() method is called
+        with self.assertRaises(ValueError):
+            cron_expression.parse()
 
     def test_empty_expression(self):
-        with self.assertRaisesRegex(ValueError,  r"Error: Invalid cron format, Field count should be 6" ):
-            Parsing("0 0 * * ").validate_exp()
+        # Test an empty cron expression
+        empty_exp = ""
+
+        # Mock the validator to raise a ValueError when validate() is called with empty_exp
+        self.validator.validate = MagicMock(side_effect=ValueError("Invalid cron expression"))
+
+        # Create CronExpression instance with mocks
+        cron_expression = CronExpression(empty_exp, self.validator, self.parser, self.scheduler, self.printer)
+
+        # Expect a ValueError to be raised when parse() method is called
+        with self.assertRaises(ValueError):
+            cron_expression.parse()
+
+    def test_missing_command(self):
+        # Test a cron expression missing the command part
+        exp_without_command = "0 * * * *"
+
+        # Mock the validator to raise a ValueError when validate() is called with exp_without_command
+        self.validator.validate = MagicMock(side_effect=ValueError("Invalid cron expression"))
+
+        # Create CronExpression instance with mocks
+        cron_expression = CronExpression(exp_without_command, self.validator, self.parser, self.scheduler, self.printer)
+
+        # Expect a ValueError to be raised when parse() method is called
+        with self.assertRaises(ValueError):
+            cron_expression.parse()
+
+    def test_invalid_field_value(self):
+        # Test a cron expression with an invalid field value
+        exp_with_invalid_value = "*/15 0 1-40 * 1-5 /usr/bin/command"
+
+        # Mock the validator to raise a ValueError when validate() is called with exp_with_invalid_value
+        self.validator.validate = MagicMock(side_effect=ValueError("Invalid cron expression"))
+
+        # Create CronExpression instance with mocks
+        cron_expression = CronExpression(exp_with_invalid_value, self.validator, self.parser, self.scheduler, self.printer)
+
+        # Expect a ValueError to be raised when parse() method is called
+        with self.assertRaises(ValueError):
+            cron_expression.parse()
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

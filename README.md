@@ -9,11 +9,11 @@ cd Cron_Parser
 ```
 
 ## Usage
-To use the utility, run the `Parsing.py` script with a cron expression as an argument. For example:
+To use the utility, run the `main.py` script with a cron expression as an argument. For example:
 
 ### Usage in Windows
 ```
-python Parsing.py "*/15 0 1,15 * 1-5 /usr/bin/find"
+python main.py "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
 ### Usage in Linux
 ```
@@ -49,10 +49,16 @@ This will run all the test cases defined in the project.
 
 ## Files and Folders
 
-- `Parsing.py`: Main script for parsing cron expressions.
-- `test`: Directory containing unit test files.
-  - `test_validation.py`: Test cases for validation of cron expressions.
-  - `test_parsing.py`: Test cases for parsing and expanding cron expressions.
+cronparser/
+│
+├── constants.py        # Contains constant values used across the project
+├── interfaces.py       # Defines interfaces for Validator, Parser, Scheduler, and Printer
+├── validators.py       # Implements the DefaultCronValidator
+├── parsers.py          # Implements the DefaultCronParser
+├── schedulers.py       # Implements the DefaultCronScheduler
+├── printers.py         # Implements the DefaultCronPrinter
+├── cron_expression.py  # Combines all components and defines the CronExpression class
+└── main.py             # Main entry point for running the cron parser
 
 ## Assumptions and Limitations
 
