@@ -1,4 +1,4 @@
-from interfaces import ICronPrinter
+from cronparser.interfaces import ICronPrinter
 
 class DefaultCronPrinter(ICronPrinter):
     def print_box(self, output):

@@ -1,5 +1,5 @@
-from constants import CronConstants
-from interfaces import ICronValidator
+from cronparser.constants import CronConstants
+from cronparser.interfaces import ICronValidator
 
 class DefaultCronValidator(ICronValidator):
     def __init__(self):

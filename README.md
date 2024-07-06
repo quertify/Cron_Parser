@@ -17,7 +17,7 @@ python main.py "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
 ### Usage in Linux
 ```
-python3 Parsing.py "*/15 0 1,15 * 1-5 /usr/bin/find"
+python3 main.py "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
 
 This will output the expanded cron expression in a table format:
@@ -29,7 +29,22 @@ month	       1 2 3 4 5 6 7 8 9 10 11 12
 day of week	 1 2 3 4 5
 command	     /usr/bin/find
 ```
+### You can now see the next five iterations of the parsed expression
+note : We will make it better looking in the next version
 
+```
+minute         0 5 10 15 20 25 30 35 40 45 50 55
+hour           0
+day of month   1 15
+month          1 2 3 4 5 6 7 8 9 10 11 12
+day of week    1 2 3 4 5
+command        /path/to/command
+Next cron iteration would be at: 2024-07-15 00:00:12
+Next cron iteration would be at: 2024-07-15 00:05:12
+Next cron iteration would be at: 2024-07-15 00:10:12
+Next cron iteration would be at: 2024-07-15 00:15:12
+Next cron iteration would be at: 2024-07-15 00:20:12
+```
 
 ## Testing
 
@@ -50,15 +65,20 @@ This will run all the test cases defined in the project.
 ## Files and Folders
 ```
 cronparser/
-│
-├── constants.py        # Contains constant values used across the project
-├── interfaces.py       # Defines interfaces for Validator, Parser, Scheduler, and Printer
-├── validators.py       # Implements the DefaultCronValidator
-├── parsers.py          # Implements the DefaultCronParser
-├── schedulers.py       # Implements the DefaultCronScheduler
-├── printers.py         # Implements the DefaultCronPrinter
-├── cron_expression.py  # Combines all components and defines the CronExpression class
-└── main.py             # Main entry point for running the cron parser
+├── __init__.py
+├── constants.py
+├── interfaces.py
+├── validators.py
+├── parsers.py
+├── schedulers.py
+├── printers.py
+├── cron_expression.py
+tests/
+├── __init__.py
+├── test_cron_expression.py
+├── test_default_cron_validator.py
+├── test_default_cron_parser.py
+main.py
 ```
 ## Assumptions and Limitations
 
@@ -68,8 +88,9 @@ cronparser/
     - `Minutes: 0 to 59`
     - `Hours: 0 to 23`
     - `Day of Month: 1 to 31`
-    - `Month: 1 to 12`
-    - `Day of Week: 0 to 6 (Sunday to Saturday)`
+    - `Month: 1 to 12, also accepts [JAN-DEC]`
+    - `Day of Week: 0 to 6 (Sunday to Saturday) also accepts [MON - SUN]`
+    - `Year: 1990 to 2090`
 - No Special Time Strings: The project doesn't handle special time strings such as "@yearly" or "@daily".
 - Valid Input: It assumes that users provide valid cron expressions as input. The program doesn't extensively validate the input beyond basic syntax checks.
 - No External Dependencies: The project assumes that it doesn't require any external dependencies beyond the standard Python libraries.
@@ -77,3 +98,10 @@ cronparser/
 - Single Cron Expression: The project processes a single cron expression at a time.
 - Output Formatting: The output is formatted as a table with each field name followed by the corresponding times at which it will run. The output format adheres to the specifications provided.
 - Python Version Compatibility: The project is assumed to be compatible with Python 3.x versions
+
+## Further Enhancements:
+- Next step is to make it better looking
+- Add more tests
+- Add features like arguments
+- accept multiple cron expressions
+- allow to switch off the next iteration part

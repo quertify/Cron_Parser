@@ -1,5 +1,5 @@
-from constants import CronConstants
-from interfaces import ICronParser
+from cronparser.constants import CronConstants
+from cronparser.interfaces import ICronParser
 
 class DefaultCronParser(ICronParser):
     def __init__(self):

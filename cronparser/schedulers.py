@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from interfaces import ICronScheduler
+from cronparser.interfaces import ICronScheduler
 
 class DefaultCronScheduler(ICronScheduler):
     def next_iterations(self, n, output, given_time):
